@@ -315,45 +315,43 @@ class _ChatPageState extends State<ChatPage> {
   Widget _buildSubmit() {
     return Visibility(
       visible: !isLoading,
-      child: Container(
-        color: botBackgroundColor,
-        child: IconButton(
-          icon: const Icon(
-            Icons.send_rounded,
-            color: Color.fromRGBO(142, 142, 160, 1),
-          ),
-          onPressed: () async {
-            setState(
-              () {
-                _messages.add(
-                  ChatMessage(
-                    text: _textController.text,
-                    chatMessageType: ChatMessageType.user,
-                  ),
-                );
-                isLoading = true;
-              },
-            );
-            var input = _textController.text;
-            _textController.clear();
-            Future.delayed(const Duration(milliseconds: 50))
-                .then((_) => _scrollDown());
-            generateResponse(input).then((value) {
-              setState(() {
-                isLoading = false;
-                _messages.add(
-                  ChatMessage(
-                    text: value,
-                    chatMessageType: ChatMessageType.bot,
-                  ),
-                );
-              });
-            });
-            _textController.clear();
-            Future.delayed(const Duration(milliseconds: 50))
-                .then((_) => _scrollDown());
-          },
+      child: IconButton(
+        icon: const Icon(
+          Icons.send_rounded,
+          color: Colors.white,
+          size: 30,
         ),
+        onPressed: () async {
+          setState(
+            () {
+              _messages.add(
+                ChatMessage(
+                  text: _textController.text,
+                  chatMessageType: ChatMessageType.user,
+                ),
+              );
+              isLoading = true;
+            },
+          );
+          var input = _textController.text;
+          _textController.clear();
+          Future.delayed(const Duration(milliseconds: 50))
+              .then((_) => _scrollDown());
+          generateResponse(input).then((value) {
+            setState(() {
+              isLoading = false;
+              _messages.add(
+                ChatMessage(
+                  text: value,
+                  chatMessageType: ChatMessageType.bot,
+                ),
+              );
+            });
+          });
+          _textController.clear();
+          Future.delayed(const Duration(milliseconds: 50))
+              .then((_) => _scrollDown());
+        },
       ),
     );
   }
